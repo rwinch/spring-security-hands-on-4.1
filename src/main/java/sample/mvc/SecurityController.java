@@ -16,6 +16,9 @@
 package sample.mvc;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.security.Principal;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
@@ -41,8 +44,8 @@ public class SecurityController {
 	UserRepository userRepository;
 
 	@RequestMapping(value = "/users/self")
-	public ResponseEntity<Resource<?>> login(PersistentEntityResourceAssembler assembler) {
-		String username = "luke@example.com";
+	public ResponseEntity<Resource<?>> login(PersistentEntityResourceAssembler assembler, Principal principal) {
+		String username = principal.getName();
 
 		User currentUser = userRepository.findByEmail(username);
 
