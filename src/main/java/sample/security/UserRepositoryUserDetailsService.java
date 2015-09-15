@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service;
  * @author Rob Winch
  *
  */
-//@Service
+@Service
 public class UserRepositoryUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
 
