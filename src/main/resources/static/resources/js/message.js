@@ -187,10 +187,9 @@
         };
 
         self.getCsrf = function() {
-            return new CsrfToken({headerName:'X-CSRF-TOKEN',parameterName:'_csrf',token:'fake'})
-//            return $.get('csrf', function(data) {
-//                self.csrf(new CsrfToken(data));
-//            });
+            return $.get('csrf', function(data) {
+                self.csrf(new CsrfToken(data));
+            });
         };
 
         self.getAccountActivity = function() {
