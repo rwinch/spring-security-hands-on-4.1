@@ -16,38 +16,27 @@
 package sample.mvc;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.security.Principal;
-
-import javax.servlet.http.HttpSession;
-
 import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.web.csrf.CsrfToken;
-import org.springframework.session.Session;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import sample.data.User;
 import sample.data.UserRepository;
-import sample.security.CurrentUser;
 
 /**
  * @author Rob Winch
  */
 @RestController
 public class SecurityController {
-	@Autowired
-	UserRepository userRepository;
 
 	@RequestMapping(value = "/users/self")
-	public ResponseEntity<Resource<?>> login(PersistentEntityResourceAssembler assembler, Principal principal) {
-		String username = principal.getName();
-
-		User currentUser = userRepository.findByEmail(username);
+	public ResponseEntity<Resource<?>> login(PersistentEntityResourceAssembler assembler, Authentication authentication) {
+		User currentUser = (User) authentication.getPrincipal();
 
 		return new ResponseEntity<Resource<?>>(assembler.toFullResource(new User(currentUser)), HttpStatus.OK);
 	}
