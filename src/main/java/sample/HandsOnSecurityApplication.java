@@ -24,7 +24,7 @@ import org.springframework.boot.autoconfigure.session.SessionAutoConfiguration;
 /**
  * @author Rob Winch
  */
-@SpringBootApplication(exclude = {SecurityAutoConfiguration.class, SessionAutoConfiguration.class})
+@SpringBootApplication(exclude = {SessionAutoConfiguration.class})
 public class HandsOnSecurityApplication {
 
 	public static void main(String[] args) {
