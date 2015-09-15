@@ -24,6 +24,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.httpBasic().and()
 			.headers()
 				.csp()
-					.defaultSrc().self();
+					.defaultSrc().self().sources("ws://**").unsafeEval();
 	}
 }
