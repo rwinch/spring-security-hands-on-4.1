@@ -21,6 +21,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginPage("/")
 				.permitAll()
 				.and()
-			.httpBasic();
+			.httpBasic().and()
+			.headers()
+				.csp()
+					.defaultSrc().self();
 	}
 }
