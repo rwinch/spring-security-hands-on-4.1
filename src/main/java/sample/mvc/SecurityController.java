@@ -20,14 +20,13 @@ import org.springframework.data.rest.webmvc.PersistentEntityResourceAssembler;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import sample.data.User;
 import sample.data.UserRepository;
+import sample.security.CurrentUser;
 
 /**
  * @author Rob Winch
@@ -36,7 +35,7 @@ import sample.data.UserRepository;
 public class SecurityController {
 
 	@RequestMapping(value = "/users/self")
-	public ResponseEntity<Resource<?>> login(PersistentEntityResourceAssembler assembler, @AuthenticationPrincipal User currentUser) {
+	public ResponseEntity<Resource<?>> login(PersistentEntityResourceAssembler assembler, @CurrentUser User currentUser) {
 
 		return new ResponseEntity<Resource<?>>(assembler.toFullResource(new User(currentUser)), HttpStatus.OK);
 	}
