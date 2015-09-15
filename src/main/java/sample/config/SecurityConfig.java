@@ -12,7 +12,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http
-			.headers().disable()
 			.authorizeRequests()
 				.antMatchers("/polyglot/**","/xss/**").permitAll()
 				.antMatchers("/resources/**").permitAll()
