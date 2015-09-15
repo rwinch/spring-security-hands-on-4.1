@@ -9,17 +9,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
-	public void configure(WebSecurity web) throws Exception {
-		web
-			.ignoring()
-				.antMatchers("/polyglot/**");
-	}
-
-	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
 		http
 			.authorizeRequests()
+				.antMatchers("/polyglot/**").permitAll()
 				.antMatchers("/resources/**").permitAll()
 				.anyRequest().authenticated()
 				.and()
