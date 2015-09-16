@@ -15,7 +15,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http
 			.authorizeRequests()
-				.antMatchers("/messages/{id:\\d+}/**").access("@messageRepository.findOne(T(java.lang.Long).parseLong(#id))?.to?.id == principal?.id")
+				.antMatchers("/messages/{id:\\d+}/**").access("@authz.check(principal,#id)")
 				.antMatchers("/polyglot/**","/xss/**").permitAll()
 				.antMatchers("/resources/**").permitAll()
 				.anyRequest().authenticated()
