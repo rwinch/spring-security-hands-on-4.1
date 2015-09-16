@@ -28,12 +28,10 @@ import org.springframework.security.access.method.P;
  */
 public interface MessageRepository extends CrudRepository<Message, Long> {
 
-//    @Query("select m from Message m where m.to.id = ?#{principal.id}")
-    @Query("select m from Message m")
+    @Query("select m from Message m where m.to.id = ?#{principal.id}")
     Iterable<Message> inbox();
 
-//    @Query("select m from Message m where m.from.id = ?#{principal.id}")
-    @Query("select m from Message m")
+    @Query("select m from Message m where m.from.id = ?#{principal.id}")
     Iterable<Message> sent();
 
     Message findOne(@Param("id") Long id);
