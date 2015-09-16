@@ -81,6 +81,7 @@ public class HandsOnSecurityApplicationTests {
 			.andExpect(status().isUnauthorized());
 	}
 
+	@WithUserDetails("rob@example.com")
 	@Test
 	public void inbox() throws Exception {
 		mockMvc
