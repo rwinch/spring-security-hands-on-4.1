@@ -81,7 +81,7 @@ public class HandsOnSecurityApplicationTests {
 			.andExpect(status().isUnauthorized());
 	}
 
-	@WithUserDetails("rob@example.com")
+	@WithRob
 	@Test
 	public void inbox() throws Exception {
 		mockMvc
@@ -89,6 +89,7 @@ public class HandsOnSecurityApplicationTests {
 			.andExpect(status().isOk());
 	}
 
+	@WithRob
 	@Test
 	public void sent() throws Exception {
 		mockMvc
