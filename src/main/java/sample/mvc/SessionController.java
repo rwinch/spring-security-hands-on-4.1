@@ -43,7 +43,7 @@ import sample.session.SessionInfo;
  * @author Rob Winch
  *
  */
-//@RestController
+@RestController
 public class SessionController {
 	@Autowired
 	FindByPrincipalNameSessionRepository<? extends ExpiringSession> sessions;
