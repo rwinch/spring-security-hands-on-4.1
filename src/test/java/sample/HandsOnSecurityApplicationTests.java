@@ -50,6 +50,7 @@ import sample.session.SessionDetailsFilter;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = HandsOnSecurityApplication.class)
 @WebAppConfiguration
+@WithRob
 public class HandsOnSecurityApplicationTests {
 	@Autowired
 	SessionRepositoryFilter<? extends ExpiringSession> springSessionRepositoryFilter;
@@ -81,7 +82,6 @@ public class HandsOnSecurityApplicationTests {
 			.andExpect(status().isUnauthorized());
 	}
 
-	@WithRob
 	@Test
 	public void inbox() throws Exception {
 		mockMvc
@@ -89,7 +89,6 @@ public class HandsOnSecurityApplicationTests {
 			.andExpect(status().isOk());
 	}
 
-	@WithRob
 	@Test
 	public void sent() throws Exception {
 		mockMvc
