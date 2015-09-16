@@ -70,6 +70,7 @@ public class HandsOnSecurityApplicationTests {
 				.defaultRequest(get("/").header("X-FORWARDED-FOR", "184.154.83.119").header("User-Agent", "JUnit").accept(MediaType.APPLICATION_JSON))
 				.alwaysDo(print())
 				.addFilters(springSessionRepositoryFilter,sessionDetailsFilter,requestContextFilter)
+				.apply(springSecurity())
 				.build();
 	}
 
