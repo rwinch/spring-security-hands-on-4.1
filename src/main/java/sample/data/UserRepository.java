@@ -29,6 +29,6 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
 	User findByEmail(@Param("email") String email);
 
-//	@Query("select u from User u where u.id = ?#{principal.id}")
-//	User self();
+	@Query("select u from User u where u.id = ?#{principal.id}")
+	User self();
 }

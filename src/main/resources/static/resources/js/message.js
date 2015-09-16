@@ -175,7 +175,7 @@
                 }
             } : function(e) {};
 
-            return $.ajax('users/self', {
+            return $.ajax('users/search/self', {
                 headers: additionalHeaders,
                 type: 'get', contentType: 'application/json',
                 error : errorHandler
