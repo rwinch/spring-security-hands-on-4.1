@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-//@ControllerAdvice
+@ControllerAdvice
 public class SecurityControllerAdvice {
     private Log logger = LogFactory.getLog(getClass());
 
