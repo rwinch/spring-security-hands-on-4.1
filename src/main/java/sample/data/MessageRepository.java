@@ -36,7 +36,7 @@ public interface MessageRepository extends CrudRepository<Message, Long> {
     @Query("select m from Message m where m.from.id = ?#{principal.id}")
     Iterable<Message> sent();
 
-    @PostAuthorize("returnObject?.to?.id == principal?.id")
+    @PostAuthorize("@authz.check(principal, returnObject)")
     Message findOne(@Param("id") Long id);
 
     Message findBySummary(@Param("summary") String summary);
