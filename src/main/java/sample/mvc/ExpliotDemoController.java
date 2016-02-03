@@ -15,6 +15,7 @@
  */
 package sample.mvc;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,10 +23,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import sample.data.Message;
 import sample.data.MessageRepository;
@@ -40,6 +43,15 @@ public class ExpliotDemoController {
 		super();
 		this.messageRepository = messageRepository;
 		this.messageParser = messageParser;
+	}
+
+	@RequestMapping("/rfd")
+	@ResponseBody
+	public String result(String m) throws Exception {
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, String> map = new HashMap<>();
+		map.put("message", m);
+		return mapper.writeValueAsString(map);
 	}
 
 	@RequestMapping(value = "/csrf/messages/", method = RequestMethod.POST)
