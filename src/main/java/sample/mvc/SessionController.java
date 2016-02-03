@@ -19,6 +19,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +28,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.session.ExpiringSession;
-import org.springframework.session.FindByPrincipalNameSessionRepository;
+import org.springframework.session.FindByIndexNameSessionRepository;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 import sample.data.User;
 import sample.security.CurrentUser;
@@ -46,7 +46,7 @@ import sample.session.SessionInfo;
 //@RestController
 public class SessionController {
 	@Autowired
-	FindByPrincipalNameSessionRepository<? extends ExpiringSession> sessions;
+	FindByIndexNameSessionRepository<? extends ExpiringSession> sessions;
 
 
 	/**
@@ -57,7 +57,7 @@ public class SessionController {
 	@RequestMapping(value = "/sessions/", method = RequestMethod.GET, produces = { MediaType.APPLICATION_JSON_VALUE, "application/hal+json" })
 	public ResponseEntity<?> index(PersistentEntityResourceAssembler assembler, @CurrentUser User currentUser) {
 		Collection<? extends ExpiringSession> usersSessions =
-				sessions.findByPrincipalName(currentUser.getEmail()).values();
+				getSessions(currentUser.getEmail()).values();
 
 		List<SessionInfo> info = new ArrayList<SessionInfo>(usersSessions.size());
 		for(ExpiringSession session : usersSessions) {
@@ -69,12 +69,16 @@ public class SessionController {
 
 	@RequestMapping(value = "/sessions/", method = RequestMethod.DELETE, produces = { MediaType.APPLICATION_JSON_VALUE, "application/hal+json" })
 	public HttpStatus removeSession(Principal principal, @RequestHeader("x-auth-token") String sessionIdToDelete) {
-		Set<String> usersSessionIds = sessions.findByPrincipalName(principal.getName()).keySet();
+		Set<String> usersSessionIds = getSessions(principal.getName()).keySet();
 		if(usersSessionIds.contains(sessionIdToDelete)) {
 			sessions.delete(sessionIdToDelete);
 		}
 
 		return HttpStatus.NO_CONTENT;
+	}
+
+	private Map<String,? extends ExpiringSession> getSessions(String username) {
+		return sessions.findByIndexNameAndIndexValue(FindByIndexNameSessionRepository.PRINCIPAL_NAME_INDEX_NAME, username);
 	}
 
 }
